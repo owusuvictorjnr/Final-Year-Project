@@ -76,7 +76,7 @@ export default function LoginPage() {
               minLength: {
                 value: 5,
                 message: 'Password must be at least 5 characters',
-              },  
+              },
             })}
             type="password"
             className="w-full"
@@ -91,6 +91,8 @@ export default function LoginPage() {
           <button className="primary-btn">Login</button>
         </div>
 
+        <Link href="/forgotPassword">Forgot Password</Link>
+
         <div className="mb-4">
           Don&apos;t have an account? &nbsp;
           <Link
@@ -102,5 +104,5 @@ export default function LoginPage() {
         </div>
       </form>
     </Layout>
-  );
+  )
 }
