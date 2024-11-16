@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import Link from 'next/link'
+// import data from '@/utils/data'
+
 
 export default function ProductItem({ product, addToCartHandler }) {
   return (

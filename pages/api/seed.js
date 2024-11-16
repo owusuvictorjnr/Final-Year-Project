@@ -1,17 +1,30 @@
-import Product from '@/models/Product'
-
-const { default: User } = require('@/models/User')
-const { default: data } = require('@/utils/data')
-const { default: db } = require('@/utils/db')
+import Product from "@/models/Product";
+import User from "@/models/User";
+import data from "@/utils/data";
+import db from "@/utils/db";
 
 const handler = async (req, res) => {
-  await db.connect()
-  await User.deleteMany()
-  await User.insertMany(data.users)
-  await Product.deleteMany()
-  await Product.insertMany(data.products)
-  await db.disconnect()
-  res.send({ message: 'Seeded successfully' })
-}
+  try {
+    await db.connect();
+    // Clear existing data in the User and Product collections
+    await User.deleteMany();
+    await Product.deleteMany();
 
-export default handler
+    // Insert users and products from your data.js
+    await User.insertMany(data.users);
+    await Product.insertMany(data.products);
+
+    // Disconnect from the database
+    await db.disconnect();
+
+    // Send success response
+    res.status(200).send({ message: "Seeded successfully" });
+  } catch (error) {
+    await db.disconnect();
+    res
+      .status(500)
+      .send({ message: "Error seeding data", error: error.message });
+  }
+};
+
+export default handler;
