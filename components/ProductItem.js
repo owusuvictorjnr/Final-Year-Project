@@ -1,17 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 // import data from '@/utils/data'
-
 
 export default function ProductItem({ product, addToCartHandler }) {
   return (
-    <div className="card">
+    <div className="card min-h-1/2 lg:min-h-36 lg:w-[15rem]">
       <Link href={`/product/${product.slug}`}>
-        <img
+        <Image
           src={product.image}
           alt={product.name}
-          className="rounded shadow"
+          width={1000}
+          height={1000}
+          className="rounded shadow h-[35vh] w-full lg:h-56 lg:w-full"
         />
       </Link>
 
@@ -31,5 +33,5 @@ export default function ProductItem({ product, addToCartHandler }) {
         </button>
       </div>
     </div>
-  )
+  );
 }

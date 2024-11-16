@@ -58,15 +58,19 @@ export default function Home({ products, featuredProducts }) {
         ))}
       </Carousel>
 
-      <h2 className="capitalize h-2 my-4 font-bold mt-10">latest products</h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((product) => (
-          <ProductItem
-            product={product}
-            key={product.slug}
-            addToCartHandler={addToCartHandler}
-          />
-        ))}
+      <div className="space-y-10">
+        <h2 className="capitalize h-2 my-4 font-bold mt-10">latest products</h2>
+        <div className="flex flex-col justify-center items-center gap-5 mx-auto">
+          <div className="grid grid-cols-3 gap-4 md:grid-cols-3 lg:grid-cols-5">
+            {products.map((product) => (
+              <ProductItem
+                product={product}
+                key={product.slug}
+                addToCartHandler={addToCartHandler}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </Layout>
   );
