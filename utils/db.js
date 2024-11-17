@@ -8,6 +8,7 @@ async function connect() {
     return;
   }
 
+  // Check if there's an existing connection
   if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState;
     if (connection.isConnected === 1) {
@@ -17,18 +18,14 @@ async function connect() {
     await mongoose.disconnect();
   }
 
-  // Adding options to handle timeouts and connection stability
-  const db = await mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000, // 30 seconds for server selection
-    socketTimeoutMS: 45000, // 45 seconds socket timeout
-    connectTimeoutMS: 30000, // 30 seconds for initial connection
-    retryWrites: true, // Retry writes on network errors
-  });
-
-  console.log("New connection");
-  connection.isConnected = db.connections[0].readyState;
+  // New connection with additional error handling
+  try {
+    const db = await mongoose.connect(process.env.MONGODB_URI);
+    console.log("New connection established");
+    connection.isConnected = db.connections[0].readyState;
+  } catch (error) {
+    console.error("Failed to connect to MongoDB", error);
+  }
 }
 
 async function disconnect() {
@@ -36,8 +33,9 @@ async function disconnect() {
     if (process.env.NODE_ENV === "production") {
       await mongoose.disconnect();
       connection.isConnected = false;
+      console.log("Disconnected from MongoDB in production");
     } else {
-      console.log("Not disconnected");
+      console.log("Not disconnected in development");
     }
   }
 }
